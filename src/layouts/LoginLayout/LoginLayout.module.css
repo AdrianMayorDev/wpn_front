@@ -1,0 +1,18 @@
+.loginContainer {
+	display: flex;
+	flex-direction: column;
+	padding: 32px;
+	gap: 1.5rem;
+
+	position: absolute;
+	width: 100%;
+	max-width: 500px;
+	height: 476px;
+	left: calc(50% - 500px / 2);
+	top: calc(50% - 476px / 2);
+
+	background: #1d1925;
+	box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3);
+	border-radius: 20px;
+	border: none;
+}

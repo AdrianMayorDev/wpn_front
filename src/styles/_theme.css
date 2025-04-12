@@ -1,0 +1,12 @@
+@import "./_colors.css";
+@import "./_typography.css";
+
+:root {
+	@media screen and (prefers-color-scheme: dark) {
+		--button-primary-bg: var(--color-moonpurple-700);
+		--button-primary-bg-hover: var(--color-moonpurple-600);
+
+		--input-primary-bg: var(--color-purplish-800);
+		--input-primary-border: var(--color-purplish-400);
+	}
+}
