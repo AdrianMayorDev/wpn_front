@@ -2,14 +2,17 @@
 
 import { useState } from "react";
 import LoginFormContext from "./LoginContext";
+import loginService from "@/services/loginService";
+import { useRouter } from "next/navigation";
 
-interface LoginFormValues {
+export interface LoginFormValues {
 	email: string;
 	password: string;
 	rememberMe: boolean;
 }
 
 export const LoginFormProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+	const router = useRouter();
 	const [values, setValues] = useState<LoginFormValues>({
 		email: "",
 		password: "",
@@ -21,23 +24,11 @@ export const LoginFormProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 	};
 
 	const handleSubmit = async () => {
-		if (!values.email || !values.password) {
-			alert("Please fill in all fields.");
-			return;
-		}
-
 		try {
-			const response = await fetch("/api/login", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(values),
-			});
-			if (!response.ok) {
-				throw new Error("Login failed");
-			}
-			alert("Login successful!");
+			await loginService(values);
+			router.push("/");
 		} catch (error) {
-			alert(error instanceof Error ? error.message : "An unknown error occurred");
+			console.error("Login failed:", error);
 		}
 	};
 

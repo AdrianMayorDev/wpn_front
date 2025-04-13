@@ -14,7 +14,7 @@ const LoginLayout: React.FC = () => {
 					<Login.RememberMe text='Remember me' />
 					<LoginButton text='Login' />
 				</Login.Form>
-				<Login.Aux text="Don't have an account yet?" textLink='Sign up' link='/' />
+				<Login.Aux text="Don't have an account yet?" textLink='Sign up' link='/signup' />
 			</Login>
 		</LoginFormProvider>
 	);

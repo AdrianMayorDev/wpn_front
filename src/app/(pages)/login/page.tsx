@@ -1,15 +1,13 @@
 "use client";
-
 import useIsLogged from "@/hooks/useIsLogged";
+import LoginLayout from "@/layouts/LoginLayout/LoginLayout";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-// import styles from "./page.module.css";
 
-export default function Home() {
+const LoginPage = () => {
 	const router = useRouter();
 	const isLoggedIn = useIsLogged();
 	const [isLoading, setIsLoading] = useState(true);
-
 	useEffect(() => {
 		// Wait for the hook to resolve the logged-in status
 		if (isLoggedIn !== undefined) {
@@ -20,20 +18,6 @@ export default function Home() {
 				router.push("/login");
 			}
 		}
-
-		const handleBeforeUnload = () => {
-			const rememberMe = localStorage.getItem("rememberMe");
-			if (!rememberMe || rememberMe === "false") {
-				sessionStorage.removeItem("token");
-			}
-		};
-
-		window.addEventListener("beforeunload", handleBeforeUnload);
-
-		// Clean the event listener on component unmount
-		return () => {
-			window.removeEventListener("beforeunload", handleBeforeUnload);
-		};
 	}, [isLoggedIn, router]);
 
 	// Show a loading state while determining the logged-in status
@@ -41,10 +25,7 @@ export default function Home() {
 		return <div>Loading...</div>;
 	}
 
-	return (
-		<div>
-			<main>{isLoggedIn && <div>hola</div>}</main>
-			<footer></footer>
-		</div>
-	);
-}
+	return <LoginLayout />;
+};
+
+export default LoginPage;

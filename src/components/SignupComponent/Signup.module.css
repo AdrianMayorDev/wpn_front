@@ -1,4 +1,4 @@
-.loginContainer {
+.signupContainer {
 	display: flex;
 	flex-direction: column;
 	padding: 32px;
@@ -7,7 +7,7 @@
 	position: absolute;
 	width: 100%;
 	max-width: 500px;
-	height: 476px;
+	min-height: 476px;
 	left: calc(50% - 500px / 2);
 	top: calc(50% - 476px / 2);
 

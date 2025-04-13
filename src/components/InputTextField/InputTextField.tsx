@@ -6,9 +6,10 @@ interface IInputField {
 	value?: string;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	disabled?: boolean;
+	required?: boolean;
 }
 
-const InputField = ({ type, placeholder, value, onChange, disabled }: IInputField) => {
+const InputField = ({ type, placeholder, value = "", onChange, disabled, required }: IInputField) => {
 	return (
 		<input
 			className={styles.inputContainer}
@@ -17,6 +18,7 @@ const InputField = ({ type, placeholder, value, onChange, disabled }: IInputFiel
 			value={value}
 			onChange={onChange}
 			disabled={disabled}
+			required={required}
 		/>
 	);
 };

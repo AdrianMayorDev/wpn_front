@@ -1,0 +1,28 @@
+.signupFieldContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+
+	label {
+		font-size: 0.87rem;
+		font-weight: 500;
+		letter-spacing: 0.0063rem;
+	}
+}
+
+/* Contenedor del input con la imagen */
+.inputWithAvatar {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+/* Imagen de perfil dentro del input */
+.steamAvatar {
+	position: absolute;
+	right: 10px;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	pointer-events: none; /* Evita que la imagen interfiera con el input */
+}
