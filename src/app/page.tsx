@@ -1,5 +1,7 @@
 "use client";
 
+import SidePanel from "@/components/SidePanel/SidePanel";
+import useBeforeUnload from "@/hooks/useBeforeUnmount";
 import useIsLogged from "@/hooks/useIsLogged";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,6 +12,7 @@ export default function Home() {
 	const isLoggedIn = useIsLogged();
 	const [isLoading, setIsLoading] = useState(true);
 
+	useBeforeUnload();
 	useEffect(() => {
 		// Wait for the hook to resolve the logged-in status
 		if (isLoggedIn !== undefined) {
@@ -20,20 +23,6 @@ export default function Home() {
 				router.push("/login");
 			}
 		}
-
-		const handleBeforeUnload = () => {
-			const rememberMe = localStorage.getItem("rememberMe");
-			if (!rememberMe || rememberMe === "false") {
-				sessionStorage.removeItem("token");
-			}
-		};
-
-		window.addEventListener("beforeunload", handleBeforeUnload);
-
-		// Clean the event listener on component unmount
-		return () => {
-			window.removeEventListener("beforeunload", handleBeforeUnload);
-		};
 	}, [isLoggedIn, router]);
 
 	// Show a loading state while determining the logged-in status
@@ -43,7 +32,13 @@ export default function Home() {
 
 	return (
 		<div>
-			<main>{isLoggedIn && <div>hola</div>}</main>
+			<main>
+				{isLoggedIn && (
+					<div>
+						hola<SidePanel></SidePanel>
+					</div>
+				)}
+			</main>
 			<footer></footer>
 		</div>
 	);
