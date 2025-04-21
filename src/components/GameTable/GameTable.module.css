@@ -1,0 +1,11 @@
+.gameTable {
+	margin: auto;
+	border-collapse: separate;
+	border-spacing: 1rem;
+}
+
+.gameTable th,
+.gameTable td {
+	padding: 0.5rem;
+	text-align: left;
+}

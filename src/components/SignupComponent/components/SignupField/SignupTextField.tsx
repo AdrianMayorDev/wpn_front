@@ -41,7 +41,7 @@ const SignupTextField = ({ label, type, placeholder }: ISignupFieldProps) => {
 			if (response.status === 404) {
 				throw new Error("User not found");
 			}
-			const userSteam = data.response.players[0] as ISteamPlayer;
+			const userSteam = data.response?.players[0] as ISteamPlayer;
 			if (userSteam) {
 				setSteamPlayer(userSteam);
 				setValue("steamNick", userSteam.personaname);

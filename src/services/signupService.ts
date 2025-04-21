@@ -14,7 +14,7 @@ const signupService = async (values: SignupFormValues) => {
 		console.log("Payload:", payload);
 		if (!values.email || !values.password || !values.steamNick || !values.steamUserId || !values.steamAvatar) {
 			console.log("values ", values);
-			throw new Error("Please fill in all fields.");
+			alert("Please fill in all fields.");
 		}
 
 		const response = await fetch("http://localhost:8000/user/", {
@@ -24,13 +24,32 @@ const signupService = async (values: SignupFormValues) => {
 		});
 		const data = await response.json();
 
+		console.log("Response data:", data);
 		if (data.status === "error") {
-			throw new Error(data.message || "Signup failed");
+			alert(data.message || "Signup failed");
+			return;
 		}
 
 		alert("Signup successful!");
 
-		await loginService({ email: values.email, password: values.password, rememberMe: values.rememberMe });
+		const token = await loginService({ email: values.email, password: values.password, rememberMe: values.rememberMe });
+
+		// Trigger library sync in the background
+		const syncPayload = {
+			steamNick: values.steamNick,
+			steamId: values.steamUserId,
+		};
+
+		const syncResponse = await fetch("http://localhost:8000/library/sync", {
+			method: "POST",
+			headers: { "Content-Type": "application/json", Authorization: `${token}` },
+			body: JSON.stringify(syncPayload),
+		});
+
+		const syncData = await syncResponse.json();
+		console.log("Sync response data:", syncData, token);
+
+		return syncData.data;
 	} catch (error) {
 		alert(error instanceof Error ? error.message : "An unknown error occurred");
 	}

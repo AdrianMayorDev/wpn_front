@@ -4,33 +4,20 @@ import deleteStatusService from "@/services/deleteStatusService";
 import createStatusService from "@/services/createStatusService";
 import updateStatusService from "@/services/updateStatusService";
 import styles from "./StatusesSettings.module.css";
-
-interface Status {
-	gameStatusId: string;
-	name: string;
-}
+import { useLibrary } from "@/context/LibraryContext";
 
 const StatusesSettings = () => {
-	const [statuses, setStatuses] = useState<Status[]>([]);
+	const { statuses, refreshStatuses } = useLibrary();
 	const [newStatusName, setNewStatusName] = useState("");
 
 	useEffect(() => {
-		fetchStatuses();
+		refreshStatuses();
 	}, []);
-
-	const fetchStatuses = async () => {
-		try {
-			const data = await getStatusesService();
-			setStatuses(data);
-		} catch (error) {
-			console.error("Error fetching statuses:", error);
-		}
-	};
 
 	const handleDeleteStatus = async (gameStatusId: string) => {
 		try {
 			await deleteStatusService(gameStatusId);
-			setStatuses((prevStatuses) => prevStatuses.filter((status) => status.gameStatusId !== gameStatusId));
+			await refreshStatuses();
 		} catch (error) {
 			console.error("Error deleting status:", error);
 		}
@@ -39,9 +26,9 @@ const StatusesSettings = () => {
 	const handleCreateStatus = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			const data = await createStatusService(newStatusName);
-			setStatuses((prevStatuses) => [...prevStatuses, data.data]);
+			await createStatusService(newStatusName);
 			setNewStatusName("");
+			await refreshStatuses();
 		} catch (error) {
 			console.error("Error creating status:", error);
 		}
@@ -56,9 +43,7 @@ const StatusesSettings = () => {
 			timeoutId = setTimeout(async () => {
 				try {
 					await updateStatusService(gameStatusId, newName);
-					setStatuses((prevStatuses) =>
-						prevStatuses.map((status) => (status.gameStatusId === gameStatusId ? { ...status, name: newName } : status))
-					);
+					await refreshStatuses();
 				} catch (error) {
 					console.error("Error updating status:", error);
 				}
@@ -76,8 +61,9 @@ const StatusesSettings = () => {
 							type='text'
 							defaultValue={status.name}
 							onChange={(e) => handleUpdateStatus(status.gameStatusId)(e.target.value)}
+							disabled={status.gameStatusId === "1"}
 						/>
-						<button onClick={() => handleDeleteStatus(status.gameStatusId)}>Delete</button>
+						{status.gameStatusId !== "1" && <button onClick={() => handleDeleteStatus(status.gameStatusId)}>Delete</button>}
 					</li>
 				))}
 			</ul>

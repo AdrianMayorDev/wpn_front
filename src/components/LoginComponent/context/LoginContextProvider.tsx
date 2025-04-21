@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import LoginFormContext from "./LoginContext";
-import loginService from "@/services/loginService";
 import { useRouter } from "next/navigation";
+import useHandleLogin from "@/hooks/useHandleLogin";
 
 export interface LoginFormValues {
 	email: string;
@@ -19,13 +19,15 @@ export const LoginFormProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 		rememberMe: false,
 	});
 
+	const { handleLogin, loading, error } = useHandleLogin();
+
 	const setValue = (field: keyof LoginFormValues, value: string | boolean) => {
 		setValues((prev) => ({ ...prev, [field]: value }));
 	};
 
 	const handleSubmit = async () => {
 		try {
-			await loginService(values);
+			await handleLogin(values);
 			router.push("/");
 		} catch (error) {
 			console.error("Login failed:", error);

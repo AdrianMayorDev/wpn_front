@@ -7,6 +7,11 @@ const AccountSettings = ({ closeModal }: { closeModal: () => void }) => {
 	const [currentPassword, setCurrentPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 
+	const token = sessionStorage.getItem("token");
+	if (!token) {
+		throw new Error("User is not authenticated.");
+	}
+
 	const handleUpdateUser = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
@@ -14,6 +19,31 @@ const AccountSettings = ({ closeModal }: { closeModal: () => void }) => {
 			closeModal();
 		} catch (error) {
 			console.error("Error updating user:", error);
+		}
+	};
+
+	const handleDeleteAccount = async (e: React.FormEvent) => {
+		e.preventDefault();
+		try {
+			const response = await fetch("http://localhost:8000/user/", {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `${token}`,
+				},
+				body: JSON.stringify({
+					password: currentPassword,
+				}),
+			});
+
+			console.log("Response:", response);
+
+			closeModal();
+			sessionStorage.removeItem("token");
+			localStorage.removeItem("rememberMe");
+			window.location.reload();
+		} catch (error) {
+			console.error("Error deleting account:", error);
 		}
 	};
 
@@ -34,6 +64,14 @@ const AccountSettings = ({ closeModal }: { closeModal: () => void }) => {
 					<input type='password' placeholder='Enter new password' onChange={(e) => setNewPassword(e.target.value)} />
 				</label>
 				<button>Update</button>
+			</form>
+			<form onSubmit={handleDeleteAccount}>
+				<h3>Delete Account</h3>
+				<label>
+					Current Password:
+					<input type='password' placeholder='Enter current password' onChange={(e) => setCurrentPassword(e.target.value)} />
+				</label>
+				<button className={styles.deleteAccountButton}>Delete</button>
 			</form>
 		</div>
 	);
