@@ -8,7 +8,6 @@ import useIsLogged from "@/hooks/useIsLogged";
 import fetchUserLibrary from "@/services/fetchUserLibrary";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-// import styles from "./page.module.css";
 
 export default function Home() {
 	const router = useRouter();
@@ -24,7 +23,6 @@ export default function Home() {
 			setIsLoading(false);
 
 			if (!isLoggedIn) {
-				console.log("Not Logged");
 				router.push("/login");
 				return;
 			}
@@ -32,14 +30,9 @@ export default function Home() {
 
 		const fetchLibrary = async () => {
 			try {
-				// Wait for the hook to resolve the logged-in status
-
-				// Fetch the user library
 				const library = await fetchUserLibrary();
-				console.log("Library:", library); // Debugging line to check the fetched library
-				setLibrary(library); // Update the library context
+				setLibrary(library);
 
-				// Stop the interval if the condition is met
 				const user = library?.[0]?.userId;
 				if (
 					(library && library.length > 0 && library.length === totalGamesToSync) ||
@@ -48,17 +41,15 @@ export default function Home() {
 					localStorage.setItem(`librarySynced_${user}`, "true");
 					clearInterval(interval);
 				}
-			} catch (error) {
-				console.error("Failed to fetch library:", error);
+			} catch {
+				// Library fetch handled silently during polling
 			}
 		};
 
-		// Set up the interval to fetch the library every 2 seconds
 		if (isLoggedIn) {
 			interval = setInterval(fetchLibrary, 2000);
 		}
 
-		// Cleanup the interval on component unmount
 		return () => clearInterval(interval);
 	}, [isLoggedIn, router, setLibrary, totalGamesToSync]);
 

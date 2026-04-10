@@ -14,7 +14,6 @@ const SignupPage = () => {
 			setIsLoading(false);
 
 			if (isLoggedIn) {
-				console.log("Not Logged");
 				router.push("/");
 			}
 		}

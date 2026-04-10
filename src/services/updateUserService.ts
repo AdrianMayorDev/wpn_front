@@ -15,7 +15,7 @@ const updateUserService = async (values: UpdateUserPayload) => {
 			throw new Error("User is not authenticated.");
 		}
 
-		const response = await fetch("http://localhost:8000/user/", {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
@@ -30,10 +30,8 @@ const updateUserService = async (values: UpdateUserPayload) => {
 			throw new Error(data.message || "Failed to update user.");
 		}
 
-		alert("User updated successfully!");
 		return data;
 	} catch (error) {
-		alert(error instanceof Error ? error.message : "An unknown error occurred");
 		throw error;
 	}
 };

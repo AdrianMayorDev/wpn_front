@@ -5,7 +5,7 @@ const createStatusService = async (name: string) => {
 			throw new Error("User is not authenticated.");
 		}
 
-		const response = await fetch("http://localhost:8000/library/status", {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/library/status`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -22,7 +22,6 @@ const createStatusService = async (name: string) => {
 
 		return data;
 	} catch (error) {
-		console.error("Error creating status:", error);
 		throw error;
 	}
 };

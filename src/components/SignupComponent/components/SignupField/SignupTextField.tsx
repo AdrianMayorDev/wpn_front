@@ -3,7 +3,7 @@
 import InputFieldText from "@/components/InputTextField/InputTextField";
 import styles from "./SignupTextField.module.css";
 import useSignupContext from "../../hooks/useSignupContext";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 interface ISignupFieldProps {
 	label: string;
@@ -28,16 +28,13 @@ const labelToModelKeyMap: Record<string, string> = {
 const SignupTextField = ({ label, type, placeholder }: ISignupFieldProps) => {
 	const { values, setValue } = useSignupContext();
 	const [steamPlayer, setSteamPlayer] = useState<ISteamPlayer | null>(null);
-	const [isLoading, setIsLoading] = useState(false);
 	const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
 	// Function to fetch Steam data
 	const fetchSteamData = async (username: string) => {
 		try {
-			setIsLoading(true);
-			const response = await fetch(`http://localhost:8000/externalApi/${username}`);
+			const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/externalApi/${username}`);
 			const data = await response.json();
-			console.log("Response data:", data);
 			if (response.status === 404) {
 				throw new Error("User not found");
 			}
@@ -50,11 +47,8 @@ const SignupTextField = ({ label, type, placeholder }: ISignupFieldProps) => {
 			} else {
 				setSteamPlayer(null);
 			}
-		} catch (error) {
-			console.error("Error fetching Steam data:", error);
+		} catch {
 			setSteamPlayer(null);
-		} finally {
-			setIsLoading(false);
 		}
 	};
 
@@ -74,7 +68,6 @@ const SignupTextField = ({ label, type, placeholder }: ISignupFieldProps) => {
 			// Set new debounce timeout
 			debounceTimeout.current = setTimeout(() => {
 				if (inputValue.trim().length > 1) {
-					console.log("se ejecuta el fetchSteamData", inputValue);
 					fetchSteamData(inputValue);
 				}
 			}, 500); // Debounce API calls by 500ms

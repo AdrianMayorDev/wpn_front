@@ -14,7 +14,6 @@ const LoginPage = () => {
 			setIsLoading(false);
 
 			if (isLoggedIn) {
-				console.log("Logged");
 				router.push("/");
 			}
 		}

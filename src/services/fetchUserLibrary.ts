@@ -1,12 +1,13 @@
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const fetchUserLibrary = async () => {
 	try {
-		console.log("Fetching user library..."); // Debugging line to check if the function is called
 		const token = sessionStorage.getItem("token");
 		if (!token) {
 			throw new Error("User is not authenticated.");
 		}
 
-		const response = await fetch("http://localhost:8000/library/", {
+		const response = await fetch(`${API_URL}/library/`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

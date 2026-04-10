@@ -18,17 +18,14 @@ const useDecodedToken = () => {
 			try {
 				const decoded = jwtDecode<DecodedToken>(token);
 				setDecodedToken(decoded);
-			} catch (error) {
-				console.error("Failed to decode token:", error);
+			} catch {
 				setDecodedToken(null);
 			}
-			console.log("Decoded token:", decodedToken);
 		} else {
 			setDecodedToken(null);
 		}
 	}, []);
 
-	console.log("Decoded token:", decodedToken);
 	const { userId, email, steamAvatar, steamNick, steamUserId } = decodedToken || {};
 
 	return { userId, email, steamAvatar, steamNick, steamUserId };

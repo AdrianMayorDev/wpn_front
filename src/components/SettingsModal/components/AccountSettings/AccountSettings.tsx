@@ -1,11 +1,13 @@
 import { useState } from "react";
 import updateUserService from "@/services/updateUserService";
+import { useToast } from "@/components/Toast/Toast";
 import styles from "./AccountSettings.module.css";
 
 const AccountSettings = ({ closeModal }: { closeModal: () => void }) => {
 	const [email, setEmail] = useState("");
 	const [currentPassword, setCurrentPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
+	const { showToast } = useToast();
 
 	const token = sessionStorage.getItem("token");
 	if (!token) {
@@ -16,16 +18,17 @@ const AccountSettings = ({ closeModal }: { closeModal: () => void }) => {
 		e.preventDefault();
 		try {
 			await updateUserService({ email, password: currentPassword, newPassword });
+			showToast("User updated successfully!", "success");
 			closeModal();
-		} catch (error) {
-			console.error("Error updating user:", error);
+		} catch {
+			showToast("Failed to update user", "error");
 		}
 	};
 
 	const handleDeleteAccount = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			const response = await fetch("http://localhost:8000/user/", {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/`, {
 				method: "DELETE",
 				headers: {
 					"Content-Type": "application/json",
@@ -36,14 +39,16 @@ const AccountSettings = ({ closeModal }: { closeModal: () => void }) => {
 				}),
 			});
 
-			console.log("Response:", response);
+			if (!response.ok) {
+				throw new Error("Failed to delete account");
+			}
 
 			closeModal();
 			sessionStorage.removeItem("token");
 			localStorage.removeItem("rememberMe");
 			window.location.reload();
-		} catch (error) {
-			console.error("Error deleting account:", error);
+		} catch {
+			showToast("Failed to delete account", "error");
 		}
 	};
 

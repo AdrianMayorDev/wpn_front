@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WPN - Game Library Manager
+
+A web application for managing your Steam game library. Sync your Steam games, organize them with custom statuses, and track your gaming progress.
+
+Built as a final project for **FP Superior en Desarrollo de Aplicaciones Web**.
+
+<!-- TODO: Add screenshot here -->
+<!-- ![WPN Screenshot](./docs/screenshot.png) -->
+
+## Features
+
+- **Steam Integration** - Sync your Steam library automatically by entering your Steam username
+- **Custom Statuses** - Create, edit, and delete custom game statuses (Playing, Completed, Backlog, etc.)
+- **Game Tracking** - Assign statuses to games and track your progress across your library
+- **User Authentication** - Secure login/signup with JWT-based authentication
+- **Account Management** - Update credentials or delete your account from the settings panel
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | [Next.js 15](https://nextjs.org/) (App Router) |
+| Language | [TypeScript](https://www.typescriptlang.org/) |
+| UI | React 19 + CSS Modules |
+| Auth | JWT (jwt-decode) |
+| Backend | [WPN API](<!-- TODO: link to backend repo -->) (Express) |
+| CI | GitHub Actions |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20+
+- npm
+- The [WPN backend API](<!-- TODO: link to backend repo -->) running locally
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/AMayor/wpn_front.git
+cd wpn_front
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+
+# Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will be available at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_API_URL` | Backend API base URL | `http://localhost:8000` |
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── (pages)/            # Route group (login, signup)
+│   ├── layout.tsx          # Root layout with providers
+│   └── page.tsx            # Home / Dashboard
+├── components/
+│   ├── FilledButton/       # Reusable button component
+│   ├── GameTable/          # Game library table with status management
+│   ├── InputTextField/     # Reusable input component
+│   ├── LoginComponent/     # Login compound component
+│   ├── SettingsModal/      # User settings (account, statuses)
+│   ├── SidePanel/          # User info sidebar
+│   ├── SignupComponent/    # Signup compound component
+│   └── Toast/              # Toast notification system
+├── context/                # React Context (Library state)
+├── hooks/                  # Custom hooks (auth, token, login)
+├── layouts/                # Page layouts (Login, Signup)
+├── services/               # API service layer
+└── styles/                 # Global styles, theme, colors
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Available Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Create production build |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint |
 
-## Deploy on Vercel
+## Roadmap
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [ ] Add unit and integration tests (Jest + React Testing Library)
+- [ ] Loading skeletons for better UX
+- [ ] Responsive design improvements
+- [ ] Dark/light theme toggle
+- [ ] Game search and filtering
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Author
+
+**Adrian Mayor** - [GitHub](https://github.com/AMayor)

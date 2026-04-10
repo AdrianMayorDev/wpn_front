@@ -5,7 +5,7 @@ const getStatusesService = async () => {
 			throw new Error("User is not authenticated.");
 		}
 
-		const response = await fetch("http://localhost:8000/library/allStatus", {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/library/allStatus`, {
 			method: "GET",
 			headers: {
 				Authorization: `${token}`,
@@ -20,7 +20,6 @@ const getStatusesService = async () => {
 
 		return data.data; // Devuelve la lista de estados
 	} catch (error) {
-		console.error("Error fetching statuses:", error);
 		throw error;
 	}
 };

@@ -1,5 +1,7 @@
 import { LoginFormValues } from "@/components/LoginComponent/context/LoginContextProvider";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const loginService = async (values: LoginFormValues): Promise<string> => {
 	try {
 		if (!values.email || !values.password) {
@@ -11,7 +13,7 @@ const loginService = async (values: LoginFormValues): Promise<string> => {
 			password: values.password,
 		};
 
-		const response = await fetch("http://localhost:8000/user/login", {
+		const response = await fetch(`${API_URL}/user/login`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(payload),
@@ -19,7 +21,7 @@ const loginService = async (values: LoginFormValues): Promise<string> => {
 		const data = await response.json();
 
 		if (data.status === "error") {
-			alert(data.message);
+			throw new Error(data.message);
 		}
 
 		if (data.data.token) {

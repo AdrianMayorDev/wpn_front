@@ -31,7 +31,7 @@ const LibraryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) 
 		if (!token) return;
 
 		try {
-			const response = await fetch(`http://localhost:8000/library/allStatus`, {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/library/allStatus`, {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `${token}`,
@@ -39,8 +39,8 @@ const LibraryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) 
 			});
 			const data = await response.json();
 			setStatuses(data.data);
-		} catch (error) {
-			console.error("Error fetching statuses:", error);
+		} catch {
+			// Status refresh failed silently
 		}
 	};
 

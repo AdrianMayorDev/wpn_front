@@ -19,7 +19,7 @@ export const LoginFormProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 		rememberMe: false,
 	});
 
-	const { handleLogin, loading, error } = useHandleLogin();
+	const { handleLogin } = useHandleLogin();
 
 	const setValue = (field: keyof LoginFormValues, value: string | boolean) => {
 		setValues((prev) => ({ ...prev, [field]: value }));
@@ -29,8 +29,8 @@ export const LoginFormProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 		try {
 			await handleLogin(values);
 			router.push("/");
-		} catch (error) {
-			console.error("Login failed:", error);
+		} catch {
+			// Login errors are handled by useHandleLogin
 		}
 	};
 

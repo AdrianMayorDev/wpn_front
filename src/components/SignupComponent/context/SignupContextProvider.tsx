@@ -25,12 +25,9 @@ export const SignupFormProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 		rememberMe: false,
 	});
 	const { setTotalGamesToSync } = useLibrary();
-	const [error, setError] = useState<string | null>(null);
 
 	const setValue = (field: keyof SignupFormValues, value: string | boolean) => {
 		setValues((prev) => ({ ...prev, [field]: value }));
-		console.log("SignupFormProvider setValue", field, value);
-		console.log("SignupFormProvider values", values);
 	};
 
 	const handleSubmit = async () => {
@@ -38,8 +35,8 @@ export const SignupFormProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 			const totalGames = await signupService(values);
 			if (totalGames) setTotalGamesToSync(totalGames);
 			router.push("/");
-		} catch (error) {
-			console.error("Signup failed:", error);
+		} catch {
+			// Signup errors are handled in signupService
 		}
 	};
 

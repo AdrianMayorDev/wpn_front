@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import getStatusesService from "@/services/getStatusesService";
 import deleteStatusService from "@/services/deleteStatusService";
 import createStatusService from "@/services/createStatusService";
 import updateStatusService from "@/services/updateStatusService";
@@ -18,8 +17,8 @@ const StatusesSettings = () => {
 		try {
 			await deleteStatusService(gameStatusId);
 			await refreshStatuses();
-		} catch (error) {
-			console.error("Error deleting status:", error);
+		} catch {
+			// Error thrown by service
 		}
 	};
 
@@ -29,8 +28,8 @@ const StatusesSettings = () => {
 			await createStatusService(newStatusName);
 			setNewStatusName("");
 			await refreshStatuses();
-		} catch (error) {
-			console.error("Error creating status:", error);
+		} catch {
+			// Error thrown by service
 		}
 	};
 
@@ -44,8 +43,8 @@ const StatusesSettings = () => {
 				try {
 					await updateStatusService(gameStatusId, newName);
 					await refreshStatuses();
-				} catch (error) {
-					console.error("Error updating status:", error);
+				} catch {
+					// Error thrown by service
 				}
 			}, debounceTimeout);
 		};

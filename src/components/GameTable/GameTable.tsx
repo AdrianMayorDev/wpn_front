@@ -1,4 +1,5 @@
 import { useLibrary } from "@/context/LibraryContext";
+import { useToast } from "@/components/Toast/Toast";
 import { useEffect, useState } from "react";
 import styles from "./GameTable.module.css";
 
@@ -23,6 +24,7 @@ const GameTable = () => {
 		throw new Error("User is not authenticated.");
 	}
 
+	const { showToast } = useToast();
 	const [games, setGames] = useState<Game[]>([]);
 	const [statuses, setStatuses] = useState<GameStatus[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +36,7 @@ const GameTable = () => {
 		const fetchGamesAndStatuses = async () => {
 			try {
 				// Fetch all statuses
-				const statusResponse = await fetch(`http://localhost:8000/library/allStatus`, {
+				const statusResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/library/allStatus`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
@@ -55,7 +57,7 @@ const GameTable = () => {
 					// Fetch game details for each game in the library
 					const resolvedGames: Game[] = [];
 					for (const libraryGame of libraryGames) {
-						const gameResponse = await fetch(`http://localhost:8000/library/game/${libraryGame.gameId}`, {
+						const gameResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/library/game/${libraryGame.gameId}`, {
 							method: "GET",
 							headers: {
 								"Content-Type": "application/json",
@@ -83,8 +85,8 @@ const GameTable = () => {
 
 					setGames(resolvedGames);
 				}
-			} catch (error) {
-				console.error("Failed to fetch games or statuses:", error);
+			} catch {
+				// Fetch errors handled silently
 			} finally {
 				setIsLoading(false);
 			}
@@ -102,7 +104,7 @@ const GameTable = () => {
 	// Función para asignar un nuevo estado a un juego
 	const handleStatusChange = async (gameId: string, newStatusId: string) => {
 		try {
-			const response = await fetch("http://localhost:8000/library/assign-status", {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/library/assign-status`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -114,7 +116,7 @@ const GameTable = () => {
 			const data = await response.json();
 
 			if (data.status === "error") {
-				alert("Failed to assign status: " + data.message);
+				showToast("Failed to assign status: " + data.message, "error");
 			}
 
 			// Actualizar el estado local del juego
@@ -129,8 +131,8 @@ const GameTable = () => {
 						: game
 				)
 			);
-		} catch (error) {
-			console.error("Error assigning status:", error);
+		} catch {
+			// Status assignment error
 		}
 	};
 
