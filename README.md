@@ -1,14 +1,10 @@
 # WPN - Game Library Manager
 
-A web application for managing your Steam game library. Sync your Steam games, organize them with custom statuses, and track your gaming progress.
-
-Built as a final project for **FP Superior en Desarrollo de Aplicaciones Web**.
-
-<!-- TODO: Add screenshot here -->
-<!-- ![WPN Screenshot](./docs/screenshot.png) -->
+A web application that syncs your Steam library and helps you decide what to play next. It combines Metacritic ratings with HowLongToBeat completion data to calculate a quality-per-hour score, so you can prioritize your backlog based on actual value for your time.
 
 ## Features
 
+- **Smart Scoring** - Aggregates Metacritic scores and HowLongToBeat data to generate a quality-per-hour ratio for each game
 - **Steam Integration** - Sync your Steam library automatically by entering your Steam username
 - **Custom Statuses** - Create, edit, and delete custom game statuses (Playing, Completed, Backlog, etc.)
 - **Game Tracking** - Assign statuses to games and track your progress across your library
@@ -23,7 +19,7 @@ Built as a final project for **FP Superior en Desarrollo de Aplicaciones Web**.
 | Language | [TypeScript](https://www.typescriptlang.org/) |
 | UI | React 19 + CSS Modules |
 | Auth | JWT (jwt-decode) |
-| Backend | [WPN API](<!-- TODO: link to backend repo -->) (Express) |
+| Backend | [WPN API](https://github.com/AdrianMayorDev/wpn_back) (Express) |
 | CI | GitHub Actions |
 
 ## Getting Started
@@ -32,13 +28,13 @@ Built as a final project for **FP Superior en Desarrollo de Aplicaciones Web**.
 
 - Node.js 20+
 - npm
-- The [WPN backend API](<!-- TODO: link to backend repo -->) running locally
+- The [WPN backend API](https://github.com/AdrianMayorDev/wpn_back) running locally
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/AMayor/wpn_front.git
+git clone https://github.com/AdrianMayorDev/wpn_front.git
 cd wpn_front
 
 # Install dependencies
@@ -102,4 +98,4 @@ src/
 
 ## Author
 
-**Adrian Mayor** - [GitHub](https://github.com/AMayor)
+**Adrian Mayor** - [GitHub](https://github.com/AdrianMayorDev)
