@@ -1,4 +1,4 @@
-# WPN - Game Library Manager
+# What Play Next - Game Library Manager
 
 A web application that syncs your Steam library and helps you decide what to play next. It combines Metacritic ratings with HowLongToBeat completion data to calculate a quality-per-hour score, so you can prioritize your backlog based on actual value for your time.
 
