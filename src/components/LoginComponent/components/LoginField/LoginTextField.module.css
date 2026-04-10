@@ -1,0 +1,11 @@
+.loginFieldContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+
+	label {
+		font-size: 0.87rem;
+		font-weight: 500;
+		letter-spacing: 0.0063rem;
+	}
+}

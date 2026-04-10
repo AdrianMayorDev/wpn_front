@@ -1,0 +1,13 @@
+.buttonContainer {
+	background-color: var(--button-primary-bg);
+	border: none;
+	border-radius: 6.25rem;
+	height: 3rem;
+
+	font-weight: 400;
+	font-size: 1rem;
+	line-height: 1.25rem;
+	letter-spacing: 0.03rem;
+
+	cursor: pointer;
+}

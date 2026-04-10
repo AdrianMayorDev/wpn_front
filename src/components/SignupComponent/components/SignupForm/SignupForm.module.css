@@ -1,0 +1,8 @@
+.signupFormContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+
+	max-width: 436px;
+	height: 346px;
+}
